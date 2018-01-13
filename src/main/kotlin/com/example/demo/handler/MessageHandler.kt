@@ -1,6 +1,6 @@
-package com.example.demo.handlers
+package com.example.demo.handler
 
-import com.example.demo.domains.Message
+import com.example.demo.domain.models.Message
 import org.springframework.http.HttpStatus.ACCEPTED
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.stereotype.Component

@@ -29,10 +29,10 @@ class Routes(private val messageHandler: MessageHandler, private val faqHandler:
                 DELETE("/{id}", messageHandler::deleteMessage)
             }
         }
-        "/faq".nest { 
+        "/faqs".nest { 
             accept(APPLICATION_JSON).nest { 
                 GET("/", faqHandler::findAll)
-                POST("/", faqHandler::create)
+//                POST("/", faqHandler::create)
             }
         }
         resources("/**", ClassPathResource("static/"))

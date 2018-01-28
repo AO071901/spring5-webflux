@@ -3,24 +3,32 @@ package com.example.demo.handler
 import com.example.demo.domain.models.Faq
 import com.example.demo.domain.repository.FaqRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.BodyInserters.fromObject
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
+import org.springframework.web.reactive.function.server.body
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @Component
 class FaqHandler @Autowired constructor(private val faqRepository: FaqRepository) {
-    val faqs = linkedMapOf<String, Faq>()
+//    val faqs = linkedMapOf<String, Faq>()
     
     fun findAll(req: ServerRequest): Mono<ServerResponse> =
-            ServerResponse.ok().body(fromObject(faqRepository.findAll().values))
-            
+            ServerResponse.ok().body(Flux.fromIterable(faqRepository.findAll()))
 
-//    fun create(req: ServerRequest): Mono<ServerResponse> {
-//        return req.bodyToMono(Faq::class.java).flatMap { m ->
-//            faqs[m.id] = m
-//            ServerResponse.status(HttpStatus.CREATED).body(fromObject(m))
-//        }
-//    }
+    fun findById(req: ServerRequest): Mono<ServerResponse> =
+            Mono.just(
+                    faqRepository.findById(req.pathVariable("id").toInt()))
+                    .flatMap {
+                        v -> ServerResponse.ok().body(fromObject(v))
+                    }
+    
+    fun saveAndFlush(req: ServerRequest): Mono<ServerResponse> {
+        return req.bodyToMono(Faq::class.java).flatMap { f -> 
+            ServerResponse.status(HttpStatus.CREATED).body(fromObject(faqRepository.saveAndFlush(f)))
+        } 
+    }
 }

@@ -31,8 +31,9 @@ class Routes(private val messageHandler: MessageHandler, private val faqHandler:
         }
         "/faqs".nest { 
             accept(APPLICATION_JSON).nest { 
-                GET("/", faqHandler::findAll)
-//                POST("/", faqHandler::create)
+                GET("/", faqHandler::findAll) 
+                POST("/", faqHandler::saveAndFlush)
+                GET("/{id}", faqHandler::findById)
             }
         }
         resources("/**", ClassPathResource("static/"))

@@ -40,7 +40,7 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<FaqRecord> PK_T_FAQ = UniqueKeys0.PK_T_FAQ;
+    public static final UniqueKey<FaqRecord> FAQ_PKEY = UniqueKeys0.FAQ_PKEY;
     public static final UniqueKey<SchemaVersionRecord> SCHEMA_VERSION_PK = UniqueKeys0.SCHEMA_VERSION_PK;
 
     // -------------------------------------------------------------------------
@@ -57,7 +57,7 @@ public class Keys {
     }
 
     private static class UniqueKeys0 extends AbstractKeys {
-        public static final UniqueKey<FaqRecord> PK_T_FAQ = createUniqueKey(Faq.FAQ, "pk_t_faq", Faq.FAQ.FAQ_ID);
+        public static final UniqueKey<FaqRecord> FAQ_PKEY = createUniqueKey(Faq.FAQ, "faq_pkey", Faq.FAQ.FAQ_ID);
         public static final UniqueKey<SchemaVersionRecord> SCHEMA_VERSION_PK = createUniqueKey(SchemaVersion.SCHEMA_VERSION, "schema_version_pk", SchemaVersion.SCHEMA_VERSION.INSTALLED_RANK);
     }
 }

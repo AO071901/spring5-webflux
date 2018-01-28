@@ -38,7 +38,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Faq extends TableImpl<FaqRecord> {
 
-    private static final long serialVersionUID = -611831549;
+    private static final long serialVersionUID = -1121470239;
 
     /**
      * The reference instance of <code>spring.faq</code>
@@ -138,7 +138,7 @@ public class Faq extends TableImpl<FaqRecord> {
      */
     @Override
     public UniqueKey<FaqRecord> getPrimaryKey() {
-        return Keys.PK_T_FAQ;
+        return Keys.FAQ_PKEY;
     }
 
     /**
@@ -146,7 +146,7 @@ public class Faq extends TableImpl<FaqRecord> {
      */
     @Override
     public List<UniqueKey<FaqRecord>> getKeys() {
-        return Arrays.<UniqueKey<FaqRecord>>asList(Keys.PK_T_FAQ);
+        return Arrays.<UniqueKey<FaqRecord>>asList(Keys.FAQ_PKEY);
     }
 
     /**

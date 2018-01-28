@@ -14,30 +14,23 @@ import reactor.core.publisher.Mono
 
 @Component
 class FaqHandler @Autowired constructor(private val faqRepository: FaqRepository) {
-    fun findAll(req: ServerRequest): Mono<ServerResponse> =
+    fun getFaqs(req: ServerRequest): Mono<ServerResponse> =
             ServerResponse.ok().body(Flux.fromIterable(faqRepository.findAll()))
 
-    fun findOne(req: ServerRequest): Mono<ServerResponse> =
+    fun getFaq(req: ServerRequest): Mono<ServerResponse> =
             Mono.just(
                     faqRepository.findOne(req.pathVariable("id").toInt()))
-                    .flatMap {
-                        v -> ServerResponse.ok().body(fromObject(v))
+                    .flatMap { v ->
+                        ServerResponse.ok().body(fromObject(v))
                     }
+
+    fun addFaq(req: ServerRequest): Mono<ServerResponse> =
+            req.bodyToMono(Faq::class.java).flatMap { f ->
+                ServerResponse.status(HttpStatus.CREATED).body(fromObject(faqRepository.saveAndFlush(f)))
+            }
     
-    fun saveAndFlush(req: ServerRequest): Mono<ServerResponse> {
-        val faqId = req.pathVariable("id").toInt()
-        when {
-            faqId == 0 -> {
-                return req.bodyToMono(Faq::class.java).flatMap { f ->
-                    ServerResponse.status(HttpStatus.CREATED).body(fromObject(faqRepository.saveAndFlush(f)))
-                }
+    fun updateFaq(req: ServerRequest): Mono<ServerResponse> = 
+            req.bodyToMono(Faq::class.java).flatMap { f -> 
+                ServerResponse.status(HttpStatus.ACCEPTED).body(fromObject(faqRepository.saveAndFlush(f)))
             }
-            faqId > 0 -> {
-                return req.bodyToMono(Faq::class.java).flatMap { f ->
-                    ServerResponse.status(HttpStatus.ACCEPTED).body(fromObject(faqRepository.saveAndFlush(f)))
-                }
-            }
-        }
-        return Mono.empty()
-    }
 }

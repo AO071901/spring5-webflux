@@ -4,14 +4,14 @@
 package com.example.demo.db;
 
 
-import com.example.demo.db.tables.Faqs;
+import com.example.demo.db.tables.Faq;
 import com.example.demo.db.tables.SchemaVersion;
 
 import javax.annotation.Generated;
 
 
 /**
- * Convenience access to all tables in public
+ * Convenience access to all tables in spring
  */
 @Generated(
     value = {
@@ -24,12 +24,12 @@ import javax.annotation.Generated;
 public class Tables {
 
     /**
-     * The table <code>public.faqs</code>.
+     * The table <code>spring.faq</code>.
      */
-    public static final Faqs FAQS = com.example.demo.db.tables.Faqs.FAQS;
+    public static final Faq FAQ = com.example.demo.db.tables.Faq.FAQ;
 
     /**
-     * The table <code>public.schema_version</code>.
+     * The table <code>spring.schema_version</code>.
      */
     public static final SchemaVersion SCHEMA_VERSION = com.example.demo.db.tables.SchemaVersion.SCHEMA_VERSION;
 }

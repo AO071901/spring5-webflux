@@ -14,8 +14,6 @@ import reactor.core.publisher.Mono
 
 @Component
 class FaqHandler @Autowired constructor(private val faqRepository: FaqRepository) {
-//    val faqs = linkedMapOf<String, Faq>()
-    
     fun findAll(req: ServerRequest): Mono<ServerResponse> =
             ServerResponse.ok().body(Flux.fromIterable(faqRepository.findAll()))
 
@@ -27,9 +25,19 @@ class FaqHandler @Autowired constructor(private val faqRepository: FaqRepository
                     }
     
     fun saveAndFlush(req: ServerRequest): Mono<ServerResponse> {
-        return req.bodyToMono(Faq::class.java).flatMap { f -> 
-            ServerResponse.status(HttpStatus.CREATED).body(fromObject(faqRepository.saveAndFlush(f)))
-        } 
+        val faqId = req.pathVariable("id").toInt()
+        when {
+            faqId == 0 -> {
+                return req.bodyToMono(Faq::class.java).flatMap { f ->
+                    ServerResponse.status(HttpStatus.CREATED).body(fromObject(faqRepository.saveAndFlush(f)))
+                }
+            }
+            faqId > 0 -> {
+                return req.bodyToMono(Faq::class.java).flatMap { f ->
+                    ServerResponse.status(HttpStatus.ACCEPTED).body(fromObject(faqRepository.saveAndFlush(f)))
+                }
+            }
+        }
+        return Mono.empty()
     }
-
 }

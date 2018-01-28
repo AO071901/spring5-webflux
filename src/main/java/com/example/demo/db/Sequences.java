@@ -11,7 +11,7 @@ import org.jooq.impl.SequenceImpl;
 
 
 /**
- * Convenience access to all sequences in public
+ * Convenience access to all sequences in spring
  */
 @Generated(
     value = {
@@ -24,7 +24,7 @@ import org.jooq.impl.SequenceImpl;
 public class Sequences {
 
     /**
-     * The sequence <code>public.faqs_id_seq</code>
+     * The sequence <code>spring.faq_faq_id_seq</code>
      */
-    public static final Sequence<Long> FAQS_ID_SEQ = new SequenceImpl<Long>("faqs_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));
+    public static final Sequence<Long> FAQ_FAQ_ID_SEQ = new SequenceImpl<Long>("faq_faq_id_seq", Spring.SPRING, org.jooq.impl.SQLDataType.BIGINT.nullable(false));
 }

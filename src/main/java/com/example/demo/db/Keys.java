@@ -4,9 +4,9 @@
 package com.example.demo.db;
 
 
-import com.example.demo.db.tables.Faqs;
+import com.example.demo.db.tables.Faq;
 import com.example.demo.db.tables.SchemaVersion;
-import com.example.demo.db.tables.records.FaqsRecord;
+import com.example.demo.db.tables.records.FaqRecord;
 import com.example.demo.db.tables.records.SchemaVersionRecord;
 
 import javax.annotation.Generated;
@@ -18,7 +18,7 @@ import org.jooq.impl.AbstractKeys;
 
 /**
  * A class modelling foreign key relationships and constraints of tables of 
- * the <code>public</code> schema.
+ * the <code>spring</code> schema.
  */
 @Generated(
     value = {
@@ -34,13 +34,13 @@ public class Keys {
     // IDENTITY definitions
     // -------------------------------------------------------------------------
 
-    public static final Identity<FaqsRecord, Integer> IDENTITY_FAQS = Identities0.IDENTITY_FAQS;
+    public static final Identity<FaqRecord, Integer> IDENTITY_FAQ = Identities0.IDENTITY_FAQ;
 
     // -------------------------------------------------------------------------
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<FaqsRecord> FAQS_PKEY = UniqueKeys0.FAQS_PKEY;
+    public static final UniqueKey<FaqRecord> PK_T_FAQ = UniqueKeys0.PK_T_FAQ;
     public static final UniqueKey<SchemaVersionRecord> SCHEMA_VERSION_PK = UniqueKeys0.SCHEMA_VERSION_PK;
 
     // -------------------------------------------------------------------------
@@ -53,11 +53,11 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     private static class Identities0 extends AbstractKeys {
-        public static Identity<FaqsRecord, Integer> IDENTITY_FAQS = createIdentity(Faqs.FAQS, Faqs.FAQS.ID);
+        public static Identity<FaqRecord, Integer> IDENTITY_FAQ = createIdentity(Faq.FAQ, Faq.FAQ.FAQ_ID);
     }
 
     private static class UniqueKeys0 extends AbstractKeys {
-        public static final UniqueKey<FaqsRecord> FAQS_PKEY = createUniqueKey(Faqs.FAQS, "faqs_pkey", Faqs.FAQS.ID);
+        public static final UniqueKey<FaqRecord> PK_T_FAQ = createUniqueKey(Faq.FAQ, "pk_t_faq", Faq.FAQ.FAQ_ID);
         public static final UniqueKey<SchemaVersionRecord> SCHEMA_VERSION_PK = createUniqueKey(SchemaVersion.SCHEMA_VERSION, "schema_version_pk", SchemaVersion.SCHEMA_VERSION.INSTALLED_RANK);
     }
 }

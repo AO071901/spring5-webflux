@@ -91,7 +91,7 @@ jooq {
             }
             database {
                 name = 'org.jooq.util.postgres.PostgresDatabase'
-                inputSchema = 'public'
+                inputSchema = 'spring'
                 forcedTypes {
                     forcedType {
                         name = 'varchar'
@@ -126,7 +126,7 @@ flyway {
     url = 'jdbc:postgresql://localhost:5432/spring' 
     user = 'spring'
     password = 'spring'
-    schemas = ['public']
+    schemas = ['spring']
     locations = ["filesystem:$project.projectDir/src/main/resources/db/migration"]
 }
 

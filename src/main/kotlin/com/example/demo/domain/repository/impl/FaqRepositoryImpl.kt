@@ -1,6 +1,6 @@
 package com.example.demo.domain.repository.impl
 
-import com.example.demo.db.Tables.FAQS
+import com.example.demo.db.Tables.FAQ
 import com.example.demo.domain.models.Faq
 import com.example.demo.domain.repository.FaqRepository
 import org.jooq.DSLContext
@@ -15,9 +15,9 @@ class FaqRepositoryImpl @Autowired constructor(private var dsl: DSLContext) : Fa
     @Transactional
     override fun findAll(): List<Faq> {
         val faqs: MutableList<Faq> = mutableListOf()
-        dsl.selectFrom(FAQS).fetch()
+        dsl.selectFrom(FAQ).fetch()
                 .forEach {
-                    faqs.add(Faq(it.id, it.title, it.content))
+                    faqs.add(Faq(it.faqId, it.title, it.question, it.answer))
                 }
 
         return faqs
@@ -26,34 +26,35 @@ class FaqRepositoryImpl @Autowired constructor(private var dsl: DSLContext) : Fa
     @Transactional
     override fun findOne(id: Int): Faq {
 
-        val faqsRecord = dsl.selectFrom(FAQS)
-                .where(FAQS.ID.eq(id))
+        val faqRecord = dsl.selectFrom(FAQ)
+                .where(FAQ.FAQ_ID.eq(id))
                 .fetchOne()
 
-        return Faq(faqsRecord.id, faqsRecord.title, faqsRecord.content)
+        return Faq(faqRecord.faqId, faqRecord.title, faqRecord.question, faqRecord.answer)
     }
 
     override fun saveAndFlush(faq: Faq): Faq {
-        val faqId = faq.id
+        val faqId = faq.faq_id
         when {
             faqId == 0 -> {
-                val faqsRecord = dsl.newRecord(FAQS)
-                with(faqsRecord) {
+                val faqRecord = dsl.newRecord(FAQ)
+                with(faqRecord) {
                     title = faq.title
-                    content = faq.content
+                    question = faq.question
+                    answer = faq.answer
                     store()
                 }
-                return Faq(faqsRecord.id, faqsRecord.title, faqsRecord.content)
+                return Faq(faqRecord.faqId, faqRecord.title, faqRecord.question, faqRecord.answer)
             }
             faqId > 0 -> {
-                dsl.update(FAQS)
+                dsl.update(FAQ)
                         .set(
-                                row(FAQS.TITLE, FAQS.CONTENT, FAQS.UPDATED_TIME),
-                                row(faq.title, faq.content, Timestamp(System.currentTimeMillis()))
+                                row(FAQ.TITLE, FAQ.QUESTION, FAQ.ANSWER, FAQ.UPDATED_TIME),
+                                row(faq.title, faq.question, faq.answer, Timestamp(System.currentTimeMillis()))
                         )
-                        .where(FAQS.ID.eq(faqId))
+                        .where(FAQ.FAQ_ID.eq(faqId))
                         .execute()
-                return Faq(faq.id, faq.title, faq.content)
+                return Faq(faq.faq_id, faq.title, faq.question, faq.answer)
             }
             else -> return Faq()
         }

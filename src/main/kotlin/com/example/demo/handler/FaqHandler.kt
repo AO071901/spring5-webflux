@@ -19,9 +19,9 @@ class FaqHandler @Autowired constructor(private val faqRepository: FaqRepository
     fun findAll(req: ServerRequest): Mono<ServerResponse> =
             ServerResponse.ok().body(Flux.fromIterable(faqRepository.findAll()))
 
-    fun findById(req: ServerRequest): Mono<ServerResponse> =
+    fun findOne(req: ServerRequest): Mono<ServerResponse> =
             Mono.just(
-                    faqRepository.findById(req.pathVariable("id").toInt()))
+                    faqRepository.findOne(req.pathVariable("id").toInt()))
                     .flatMap {
                         v -> ServerResponse.ok().body(fromObject(v))
                     }
@@ -31,4 +31,5 @@ class FaqHandler @Autowired constructor(private val faqRepository: FaqRepository
             ServerResponse.status(HttpStatus.CREATED).body(fromObject(faqRepository.saveAndFlush(f)))
         } 
     }
+
 }

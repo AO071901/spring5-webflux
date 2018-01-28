@@ -4,9 +4,11 @@ import com.example.demo.db.Tables.FAQS
 import com.example.demo.domain.models.Faq
 import com.example.demo.domain.repository.FaqRepository
 import org.jooq.DSLContext
+import org.jooq.impl.DSL.row
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
+import java.sql.Timestamp
 
 @Repository
 class FaqRepositoryImpl @Autowired constructor(private var dsl: DSLContext) : FaqRepository {
@@ -22,7 +24,7 @@ class FaqRepositoryImpl @Autowired constructor(private var dsl: DSLContext) : Fa
     }
 
     @Transactional
-    override fun findById(id: Int): Faq {
+    override fun findOne(id: Int): Faq {
 
         val faqsRecord = dsl.selectFrom(FAQS)
                 .where(FAQS.ID.eq(id))
@@ -32,11 +34,28 @@ class FaqRepositoryImpl @Autowired constructor(private var dsl: DSLContext) : Fa
     }
 
     override fun saveAndFlush(faq: Faq): Faq {
-        val faqsRecord = dsl.newRecord(FAQS)
-        faqsRecord.id = faq.id
-        faqsRecord.title = faq.title
-        faqsRecord.content = faq.content
-        faqsRecord.store()
-        return Faq(faqsRecord.id, faqsRecord.title, faqsRecord.content)
+        val faqId = faq.id
+        when {
+            faqId == 0 -> {
+                val faqsRecord = dsl.newRecord(FAQS)
+                with(faqsRecord) {
+                    title = faq.title
+                    content = faq.content
+                    store()
+                }
+                return Faq(faqsRecord.id, faqsRecord.title, faqsRecord.content)
+            }
+            faqId > 0 -> {
+                dsl.update(FAQS)
+                        .set(
+                                row(FAQS.TITLE, FAQS.CONTENT, FAQS.UPDATED_TIME),
+                                row(faq.title, faq.content, Timestamp(System.currentTimeMillis()))
+                        )
+                        .where(FAQS.ID.eq(faqId))
+                        .execute()
+                return Faq(faq.id, faq.title, faq.content)
+            }
+            else -> return Faq()
+        }
     }
 }

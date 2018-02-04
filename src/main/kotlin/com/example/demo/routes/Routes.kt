@@ -29,12 +29,18 @@ class Routes(private val messageHandler: MessageHandler, private val faqHandler:
                 DELETE("/{id}", messageHandler::deleteMessage)
             }
         }
-        "/faqs".nest { 
+        "/faq".nest { 
             accept(APPLICATION_JSON).nest { 
-                GET("/", faqHandler::getFaqs) 
                 POST("/", faqHandler::addFaq)
                 GET("/{id}", faqHandler::getFaq)
                 PUT("/{id}", faqHandler::updateFaq)
+                DELETE("/{id}", faqHandler::deleteFaq)
+            }
+        }
+        "/faqs".nest { 
+            accept(APPLICATION_JSON).nest {
+                GET("/", faqHandler::getFaqs)
+                GET("/search", faqHandler::getFaqsByTitleAndQuestionAndAnswer)
             }
         }
         resources("/**", ClassPathResource("static/"))

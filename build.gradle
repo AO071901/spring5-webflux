@@ -1,7 +1,7 @@
 buildscript {
 	ext {
-		kotlinVersion = '1.2.10'
-		springBootVersion = '2.0.0.M7'
+		kotlinVersion = '1.2.20'
+		springBootVersion = '2.0.0.RC1'
         jooqVersion = '3.10.4'
         jooqGradleVersion = '2.0.9'
         flywayVersion = '4.0.3'

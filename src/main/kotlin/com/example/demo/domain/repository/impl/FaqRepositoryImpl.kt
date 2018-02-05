@@ -69,10 +69,6 @@ class FaqRepositoryImpl @Autowired constructor(private var dsl: DSLContext) : Fa
             dsl.deleteFrom(FAQ).where(FAQ.FAQ_ID.eq(id)).execute()
 
     override fun findByTitleContainingAndQuestionContainingAndAnswerContaining(condition: MultiValueMap<String, String>): List<Faq> {
-        val title = condition.get("title")
-        val question = condition.get("question")
-        val answer = condition.get("answer")
-
         val selectQuery = dsl.selectFrom(FAQ).query
         condition.forEach { it ->
             run {
@@ -92,9 +88,6 @@ class FaqRepositoryImpl @Autowired constructor(private var dsl: DSLContext) : Fa
         }
 
         val faqs: MutableList<Faq> = mutableListOf()
-
-        println(selectQuery.sql)
-        println(selectQuery.toString())
 
         selectQuery
                 .fetch()

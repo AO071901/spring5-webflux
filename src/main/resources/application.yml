@@ -1,6 +1,9 @@
 spring:
   datasource:
+#    url: jdbc:log4jdbc:postgresql://localhost:5432/spring
     url: jdbc:postgresql://localhost:5432/spring
     username: spring
     password: spring
     driverClassName: org.postgresql.Driver
+#    driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    
